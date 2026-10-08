@@ -27,7 +27,7 @@ class GTBaseApi
     private function httpRequest($api, $params, $method, $gzip = false)
     {
         try {
-            $rep = GTHttpManager::httpRequest($this->getUrl($api), $params, $this->buildHead(), $gzip, $method);
+            $rep = GTHttpManager::httpRequest($this->getUrl($api), $params, $this->buildHead(), $method, $gzip);
         } catch (GTException $e) {
             throw $e;
         }
@@ -35,7 +35,7 @@ class GTBaseApi
             if ('10001' == $rep['code']) {
                 try {
                     if ($this->gtClient->auth()) {
-                        $rep = GTHttpManager::httpRequest($this->getUrl($api), $params, $this->buildHead(), $gzip, $method);
+                        $rep = GTHttpManager::httpRequest($this->getUrl($api), $params, $this->buildHead(), $method, $gzip);
                     }
                 } catch (GTException $e) {
                     throw $e;
@@ -46,7 +46,7 @@ class GTBaseApi
                 }
                 $this->gtClient->setDomainUrlList($rep["data"]["host_list"][0]["domain_list"]);
                 try {
-                    $rep = GTHttpManager::httpRequest($this->getUrl($api), $params, $this->buildHead(), $gzip, $method);
+                    $rep = GTHttpManager::httpRequest($this->getUrl($api), $params, $this->buildHead(), $method, $gzip);
                 } catch (GTException $e) {
                     throw $e;
                 }
